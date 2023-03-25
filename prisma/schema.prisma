@@ -12,13 +12,33 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  email     String?  @unique
-  image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  email     String?  @unique
+  phone     String?  @unique
+  image     String?
+  role      Role     @default(USER)
+  pets      Pet[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Pet {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  type      String
+  age       Int
+  gender    Gender
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
